@@ -1,10 +1,10 @@
 # Azure Container Hackfest Challenge Guide 
 
-Below is a series of "challenges" or guided exercises to help attendees learn about Azure Containers and Kubernetes. These are not meant the be "hands-on labs" or step-by-step guides. The goal is to provide a series of exercises that have an expected outcome. Some steps and code will be provided. In the end, the hands-on experience should lead to a deeper level of learning. 
+Below is a series of "challenges" or guided exercises to help attendees learn about Azure Containers and Kubernetes. The goal is to provide a series of exercises that have an expected outcome. Some steps and code will be provided. In the end, the hands-on experience should lead to a deeper level of learning. 
 
 ## Environment Setup
 
-For our Hackfest events, attendees will be provided a VM student environment hosted in Azure. For those setting up their machines manually, the prerequisites are below. 
+The prerequisites for setting up your machine are below. 
 
 -> Note: This has only been tested on Mac OS.
 
