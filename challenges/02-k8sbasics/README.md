@@ -74,17 +74,88 @@ In this lab you will deploy some basic kubernetes resources for a sample applica
 
     Execute the manifest file: `kubectl create -f config\myhealthyapp.yaml`
 
-    Check the status: `kubectl get service my-healthysvc`, eventually it will show an external IP
-        this didnt work for me, didnt show in services?? had to go to the portal to get the IP
+10. Change your context
 
-    Verify the the endpoint publicly: http://<Public IP>:8080/
+    The myhealthyapp manifest put everything in the 'my-ns' namespace.  The current context is the default k8s namespace.  In order to see the new deployment/services/pods, the namespace context must be my-ns.
 
-    Navigate to the liveness and readiness pages: http://<Public IP>:8080/-/liveness & http://<Public IP>:8080/-/readiness
+    Use the `kubectl config view` command to view the current cluster configuration.  This should look something like:
+```
+[vagrant@default-centos-74 hackfest]$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: REDACTED
+    server: https://hackfestk8-kubernetes-hackf-ea55d6-fa0dd490.hcp.eastus.azmk8s.io:443
+  name: hackfestK8sCluster
+- cluster:
+    certificate-authority-data: REDACTED
+    server: https://hackfestk8-kubernetes-hackf-ea55d6mgmt.eastus.cloudapp.azure.com
+  name: hackfestk8-kubernetes-hackf-ea55d6mgmt
+contexts:
+- context:
+    cluster: hackfestK8sCluster
+    user: clusterUser_Kubernetes-Hackfest_hackfestK8sCluster
+  name: hackfestK8sCluster
+- context:
+    cluster: hackfestk8-kubernetes-hackf-ea55d6mgmt
+    user: hackfestk8-kubernetes-hackf-ea55d6mgmt-admin
+  name: hackfestk8-kubernetes-hackf-ea55d6mgmt
+current-context: hackfestk8-kubernetes-hackf-ea55d6mgmt
+kind: Config
+preferences: {}
+users:
+- name: clusterUser_Kubernetes-Hackfest_hackfestK8sCluster
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+    token: dac003cceb03ceb3977f83a7bf9b28f7
+- name: hackfestk8-kubernetes-hackf-ea55d6mgmt-admin
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+[vagrant@default-centos-74 hackfest]$ 
+```
 
-    Open the K8S cluster and monitor failures as you experiment with sending failures
+The "current-context" needs to bee changed.  Before changing the context, a new (human readable) context must be created.  This is done, as follows, using the information that was displayed on your terminal (similar to above):
+
+```
+kubectl config set-context my-ns --namespace=my-ns \
+  --cluster=hackfestk8-kubernetes-hackf-ea55d6mgmt \
+  --user=hackfestk8-kubernetes-hackf-ea55d6mgmt-admin
+```
+
+With this, the namespace will show up in the `kubectl config view` similar to the following:
+
+```
+- context:
+    cluster: hackfestk8-kubernetes-hackf-ea55d6mgmt
+    namespace: my-ns
+    user: hackfestk8-kubernetes-hackf-ea55d6mgmt-admin
+  name: my-ns
+```
+
+With the new context created, simply switch to that context and then all actions occur in that context:
+
+```
+[vagrant@default-centos-74 hackfest]$ kubectl config use-context my-ns
+Switched to context "my-ns".
+[vagrant@default-centos-74 hackfest]$ kubectl get pods
+NAME                                READY     STATUS    RESTARTS   AGE
+my-healthydeploy-2191437352-8jxn6   1/1       Running   0          1h
+my-healthydeploy-2191437352-k7dph   1/1       Running   0          1h
+my-healthydeploy-2191437352-lcr09   1/1       Running   0          1h
+[vagrant@default-centos-74 hackfest]$ 
+```
+
+Once in the right context, you can check the status of the service to get the endpoint IP address: `kubectl get service my-healthysvc`, eventually it will show an external IP.
+
+Verify the the endpoint publicly: http://<Public IP>:8080/
+
+Navigate to the liveness and readiness pages: http://<Public IP>:8080/-/liveness & http://<Public IP>:8080/-/readiness
+
+Open the K8S cluster and monitor failures as you experiment with sending failures
 
 10. Clean Up again
-
 
 ## Advanced areas to explore
 
