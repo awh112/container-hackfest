@@ -66,7 +66,7 @@ For this lab, we will use the sample applications in the Microsmack repo. https:
 
     Create a secret
     ```
-    kubectrl create secret docker-registry dockerregistrysecret --docker-server <REGISTRY_NAME>.azurecr.io --docker-email <YOUR_MAIL> --docker-username=<SERVICE_PRINCIPAL_ID> --docker-password <YOUR_PASSWORD>
+    kubectl create secret docker-registry dockerregistrysecret --docker-server <REGISTRY_NAME>.azurecr.io --docker-email <YOUR_MAIL> --docker-username=<SERVICE_PRINCIPAL_ID> --docker-password <YOUR_PASSWORD>
     ```
     **Note:** Email is required but can be any email you choose.
 
