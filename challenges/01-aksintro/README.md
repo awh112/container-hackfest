@@ -44,6 +44,8 @@ kubectl get nodes
 az aks browse -g Kubernetes-Hackfest -n hackfestK8sCluster
 ```
 
+If kubectl is not installed, it can be installed via the Azure CLI with `az acs kubernetes install-cli` (`az aks` does not work)
+
 ## Advanced areas to explore
 
 1. If you have time, explore deploying a Kubernetes Cluster using the [ACS-Engine Open Source](https://github.com/Azure/acs-engine) project. 
